@@ -82,3 +82,45 @@ def update_movie_details():
         data_set.to_csv('movie_by_terms.csv', sep=',', index=False, encoding='utf-8')
 ```
 Note that multiprocessing was considered and would be viable for further and larger implementations, however it was decided to be outside of the scope of this project because the dataset was only 10,000 items, and would take a relatively small amount of time to iterate through so as to make multiprocessing not worth the effort.
+
+Now came the process of cleaning the data. One thing that is evident is that ChatGPT in its current form is definitely not perfect at following directions. Here's an example --
+![Screenshot 2023-06-07 111650](https://github.com/V-Dickerson/AIMovieAnalysis/assets/113952778/d8430684-b724-47fc-94b9-c29e1107042f)
+What this shows is instances in the dataset where ChatGPT inexplicably decided that it was not allowed to review movies, or where it didn't follow directions. Here are the examples:
+```
+The High Note,"As an AI language model, I can provide you 15 possible themes for The High Note movie:",9.904,7.1,400
+Thursday,"(As an AI language model, I don't have any context about a specific Thursday movie - please",9.68,7.0,263
+Cinderella,"As an AI language model, I distinguish different themes in a movie, such as struggles and triumphs",62.132,6.8,6551
+Falling in Love,"I'm sorry, as an AI language model, I cannot generate an answers for movies, and can",11.4,6.6,303
+Struck by Lightning,"Note: As an AI language model, I do not have personal biases and emotions, hence it is",7.704,6.3,215
+The Librarian: Quest for the Spear,"My programmer holds the opinion that as an AI language model, I cannot thoroughly comprehend any given video content",15.874,6.2,565
+Like Mike,"As an AI language model, here are some generic themes depicted in the Hollywood movie ""Like Mike"":",12.545,6.1,439
+```
+
+Further, at times it wouldn't listen to the formatting specifications demanded. Here are a few short examples.
+```
+Daylight,Thriller; Disaster; Trapped; Survival; Chaos; Heroism; Engineering feats; Drama;,13.772,6.1,1346
+Them,"Love
+Coming of age
+Family
+Friendship 
+Adventure 
+Drama
+Action 
+Suspense",6.723,6.1,451
+```
+```
+The Brats,"Bickering divorcees; coming of age; father-daughter conflict...
+Note from author: As",3.852,6.1,490
+```
+```
+Desire,"Looking at the movie Desert, here is a list of possible themes that one might find being portrayed;
+
+",94.091,6.1,710
+```
+```
+Eight Legged Freaks,"Mutant creatures, 
+Invasion of town/city, 
+Heroes saving the day, 
+Creature",16.04,5.7,1045
+```
+These are particularly insidious because they are instances where ChatGPT totally ignored its input and provided an output that could provide major errors within the script, such as when it chose to delineate the items of its response with commas, rather than semicolons. Such errors can cause major problems for reading the file into a dataset.
